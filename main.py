@@ -2,8 +2,6 @@ from typing import List
 from fastapi import APIRouter, FastAPI, HTTPException, Response
 from dataclasses import dataclass
 
-# uvicorn main:app --reload
-
 app = FastAPI(description='Проектирование и реализация REST-API информационной системы для домашней видеотеки')
 
 film_router = APIRouter(prefix='/films', tags=['Фильмы'])
