@@ -1,0 +1,304 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "FastAPI",
+        "description": "Проектирование и реализация REST-API информационной системы для домашней видеотеки",
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/films/": {
+            "get": {
+                "tags": [
+                    "Фильмы"
+                ],
+                "summary": "Все Фильмы",
+                "operationId": "Все_фильмы_films__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FilmList"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Фильмы"
+                ],
+                "summary": "Добавить Фильм",
+                "operationId": "Добавить_фильм_films__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Film"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Film"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/films/{film_id}": {
+            "get": {
+                "tags": [
+                    "Фильмы"
+                ],
+                "summary": "Получить Фильм По Id",
+                "operationId": "Получить_фильм_по_id_films__film_id__get",
+                "parameters": [
+                    {
+                        "name": "film_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "title": "Film Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Film"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Фильмы"
+                ],
+                "summary": "Обновить Данные Фильма",
+                "operationId": "Обновить_данные_фильма_films__film_id__put",
+                "parameters": [
+                    {
+                        "name": "film_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "title": "Film Id"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Film"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Film"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Фильмы"
+                ],
+                "summary": "Удалить Фильм",
+                "operationId": "Удалить_фильм_films__film_id__delete",
+                "parameters": [
+                    {
+                        "name": "film_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "title": "Film Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Film": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "title": "Id"
+                    },
+                    "title": {
+                        "type": "string",
+                        "title": "Title",
+                        "default": "Оно"
+                    },
+                    "country": {
+                        "type": "string",
+                        "title": "Country",
+                        "default": "США"
+                    },
+                    "time": {
+                        "type": "integer",
+                        "title": "Time",
+                        "default": 130
+                    },
+                    "genre": {
+                        "type": "string",
+                        "title": "Genre",
+                        "default": "Ужасы"
+                    },
+                    "year": {
+                        "type": "integer",
+                        "title": "Year",
+                        "default": 2017
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id"
+                ],
+                "title": "Film"
+            },
+            "FilmList": {
+                "properties": {
+                    "count": {
+                        "type": "integer",
+                        "title": "Count"
+                    },
+                    "films": {
+                        "items": {
+                            "$ref": "#/components/schemas/Film"
+                        },
+                        "type": "array",
+                        "title": "Films"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "count",
+                    "films"
+                ],
+                "title": "FilmList"
+            },
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            }
+        }
+    }
+}

@@ -1,6 +1,7 @@
 from typing import List
 from fastapi import APIRouter, FastAPI, HTTPException, Response
 from dataclasses import dataclass
+from pydantic import BaseModel
 
 app = FastAPI(description='Проектирование и реализация REST-API информационной системы для домашней видеотеки')
 
@@ -8,8 +9,7 @@ film_router = APIRouter(prefix='/films', tags=['Фильмы'])
 
 
 # Класс фильма
-@dataclass
-class Film:
+class Film(BaseModel):
     id: int
     title: str = 'Оно'
     country: str = 'США'
@@ -18,8 +18,7 @@ class Film:
     year: int = 2017
 
 # Класс со счетчиком
-@dataclass
-class FilmList:
+class FilmList(BaseModel):
     count: int
     films: List[Film]
 
@@ -68,7 +67,7 @@ def get_film(film_id: int):
 @film_router.post('/', name='Добавить фильм', response_model=Film)
 def create_film(Film: Film):
     new_film = {
-        'id': len(films) + 1,
+        'id': Film.id,
         'title': Film.title,
         'country': Film.country,
         'time': Film.time,
@@ -93,13 +92,13 @@ def update_film(film_id: int, Film: Film):
     raise HTTPException(status_code=404, detail="Film not found")
 
 # Эндпоинт для удаления фильма
-@film_router.delete('/{film_id}', name='Удалить фильм', response_class=Response)
+@film_router.delete('/{film_id}', name='Удалить фильм')
 def delete_film(film_id: int):
     for i, film in enumerate(tuple(films)):
         if film['id'] == film_id:
             del films[i]
-            break
-    return Response(status_code=204)
+            return {"message": "Film deleted"}
+    raise HTTPException(status_code=404, detail="Film not found")
 
 
 app.include_router(film_router)
